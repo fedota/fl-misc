@@ -10,7 +10,7 @@ import (
 	"math/rand"
 
 	"google.golang.org/grpc"
-	pb "federated_learning/fl-misc/test-client/genproto/fl_round/"
+	pb "federated-learning/fl-misc/test-client/genproto/fl_round/"
 )
 
 var wg sync.WaitGroup

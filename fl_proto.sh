@@ -1,4 +1,5 @@
 #!/bin/bash -e
+set -e
 
 protodir=../fl-proto
 client_gen=../fl-client
