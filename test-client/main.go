@@ -40,7 +40,7 @@ func main() {
 	
 	// get context
 	// use Minute as timeout period as server may take time to decide 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)
 	defer cancel()
 	
 	// get data 
@@ -55,6 +55,7 @@ func main() {
 		Message: name,
 	})
 	check(err, "Unable to send ping to gRPC server")
+	newFilePath := filePath + "_" + name
 
 	// create channel to make program wait until the following 
 	// go routine ends
@@ -73,7 +74,7 @@ func main() {
 		)
 		
 		// open the file
-		file, err = os.OpenFile(filePath, os.O_CREATE, 0644)
+		file, err = os.OpenFile(newFilePath, os.O_CREATE, 0644)
 		check(err, "Could not open new checkpoint file")
 		defer file.Close()
 
@@ -87,9 +88,15 @@ func main() {
 			}
 			check(err, "Unable to receive data from gRPC server")
 			
-			// write data to file
-			_, err = file.Write(res.Message.Content)
-			check(err, "Unable to write into file")
+			if res.Type == pb.Type_FL_CHECKPOINT {
+				// write data to file
+				_, err = file.Write(res.Message.Content)
+				check(err, "Unable to write into file")
+			} else if res.Type == pb.Type_FL_RECONN_TIME {
+				log.Println("Rejected!, Reconnection time: ", res.IntVal)
+				wg.Done()
+				return
+			}
 		}
 	} ()
 	
@@ -97,15 +104,15 @@ func main() {
 	// wait 
 	wg.Wait()
 	// time.Sleep(300000 * time.Millisecond)
-
 	// send data back
 	// ====================================================================================================
 	// check-in with FL server
-	
+	log.Println("Update started")
+
 	updateStream, err := client.Update(ctx)
 	check(err, "Cannot open stream")
 
-	file, err := os.Open(filePath)
+	file, err := os.Open(newFilePath)
 	check(err, "Could not open checkpoint file")
 
 	// make a buffer of a defined chunk size
@@ -127,7 +134,10 @@ func main() {
 			},
 			Type: pb.Type_FL_CHECKPOINT_UPDATE,
 		})
+		check(err, "could not send update")
 	}
+
+	log.Println("Update sent")
 
 	// send weight
 	n := int64(rand.Intn(100))
@@ -140,7 +150,7 @@ func main() {
 	log.Println("Reconnection time: ", res.IntVal)
 
 	// delete after sending update
-	err = os.Remove(filePath)
+	err = os.Remove(newFilePath)
 	check(err, "Unable to delete the file")
 }
 
