@@ -4,6 +4,8 @@ set -e
 protodir=../fl-proto
 client_gen=../fl-client
 server_gen=../fl-server/genproto
+selector_gen=../fl-selector/genproto
+coordinator_gen=../fl-coordinator/genproto
 
 coordinator_gen=../fl-coordinator/genproto
 selector_gen=../fl-selector/genproto
