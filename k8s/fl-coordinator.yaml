@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: coordinator
+  labels:
+    app: fl
+spec:
+  ports:
+    - port: 50050
+  selector:
+    app: fl
+  clusterIP: None
+---
+# FL Coordinator Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coordinator
+  labels:
+    app: fl	
+spec:
+  selector:
+    matchLabels:
+      app: fl
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: fl
+    spec:
+      containers:
+      - image: fl-coordinator
+        name: fl-coordinator
+        env:
+        - name: CHECKPOINT_LIMIT
+          value: "2"
+        - name: FL_ROOT_PATH
+          value: "/data"
+        ports:
+        - containerPort: 50050
+        volumeMounts:
+        - name: fl-pv
+          mountPath: "/"
+      volumes:
+      - name: fl-pv
+        persistentVolumeClaim:
+          claimName: fl-pv
