@@ -10,19 +10,19 @@ spec:
     app: fl
   ports:
   - port: 50051
-  type: LoadBalancer
+  type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: selector
   labels:
-    app: fl	
+    app: fl
 spec:
   selector:
     matchLabels:
       app: fl
-  replicas: 3
+  replicas: 1
   strategy:
     type: Recreate
   template:
@@ -34,11 +34,11 @@ spec:
       - image: fl-selector
         name: fl-selector
         env:
-        - name: SELECTOR_ID
+        - name: selector-id
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: COORDINATOR_ADDRESS
+        - name: coordinator-address
           value: coordinator
         - name: FL_ROOT_PATH
           value: "/data"

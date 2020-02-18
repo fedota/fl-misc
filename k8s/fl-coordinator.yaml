@@ -17,7 +17,7 @@ kind: Deployment
 metadata:
   name: coordinator
   labels:
-    app: fl	
+    app: fl
 spec:
   selector:
     matchLabels:
@@ -33,10 +33,10 @@ spec:
       - image: fl-coordinator
         name: fl-coordinator
         env:
-        - name: CHECKPOINT_LIMIT
+        - name: checkpoint-limit
           value: "2"
-        - name: FL_ROOT_PATH
-          value: "/data"
+        - name: fl-root-path
+          value: "/"
         ports:
         - containerPort: 50050
         volumeMounts:
