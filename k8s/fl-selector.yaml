@@ -33,21 +33,22 @@ spec:
       containers:
       - image: fl-selector
         name: fl-selector
+        imagePullPolicy: Never
         env:
-        - name: selector-id
+        - name: selector_id
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: coordinator-address
-          value: coordinator
-        - name: FL_ROOT_PATH
-          value: "/data"
+        - name: coordinator_address
+          value: "coordinator:50050"
+        - name: fl_root_path
+          value: "/mnt/data"
         ports:
         - containerPort: 50051
         volumeMounts:
-        - name: fl-pv
-          mountPath: "/"
+        - name: fl-pvc
+          mountPath: "/mnt"
       volumes:
-      - name: fl-pv
+      - name: fl-pvc
         persistentVolumeClaim:
-          claimName: fl-pv
+          claimName: fl-pvc
