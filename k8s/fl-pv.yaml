@@ -1,0 +1,15 @@
+# persistent volume for fl files shared between coordinator and selector
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: fl-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt"

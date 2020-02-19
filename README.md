@@ -6,8 +6,8 @@ Contains:
 
 ### Setup the FL workspace
 
-1. Install [go](https://grpc.io/docs/quickstart/), [python](https://www.python.org/downloads/) and [protoc](https://github.com/protocolbuffers/protobuf/blob/master/src/README.md)
-3. Install gRPC for go and python: https://grpc.io/docs/quickstart/
+1. Install everything using steps in [go](https://grpc.io/docs/quickstart/go), [python](https://www.python.org/downloads/) and [protoc](https://askubuntu.com/questions/1072683/how-can-i-install-protoc-on-ubuntu-16-04)
+3. Install gRPC for go and python: https://grpc.io/docs/quickstart/python
 2. Setup
 	```
 	$ chmod +x fl_setup.sh
