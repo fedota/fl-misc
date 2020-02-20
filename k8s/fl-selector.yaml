@@ -35,13 +35,13 @@ spec:
         name: fl-selector
         imagePullPolicy: Never
         env:
-        - name: selector_id
+        - name: SELECTOR_ID
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: coordinator_address
+        - name: COORDINATOR_ADDRESS
           value: "coordinator:50050"
-        - name: fl_root_path
+        - name: FL_ROOT_PATH
           value: "/mnt/data"
         ports:
         - containerPort: 50051

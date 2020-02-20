@@ -34,9 +34,9 @@ spec:
         name: fl-coordinator
         imagePullPolicy: Never
         env:
-        - name: checkpoint_limit
+        - name: CHECKIN_LIMIT
           value: "2"
-        - name: fl_root_path
+        - name: FL_ROOT_PATH
           value: "/mnt/data"
         ports:
         - containerPort: 50050
