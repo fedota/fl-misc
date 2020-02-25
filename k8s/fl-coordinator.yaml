@@ -38,6 +38,8 @@ spec:
           value: "2"
         - name: FL_ROOT_PATH
           value: "/mnt/data"
+        - name: SELECTOR_ADDRESS
+          value: "selector:50051"
         ports:
         - containerPort: 50050
         volumeMounts:
