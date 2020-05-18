@@ -1,2 +1,3 @@
 test-client/genproto/*
 test-client/data/*
+*pb.go
