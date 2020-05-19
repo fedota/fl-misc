@@ -6,10 +6,10 @@ metadata:
     app: fl
 spec:
   ports:
-    - port: 50050
+  - port: 50050
   selector:
     app: fl
-  clusterIP: None
+  type: ClusterIP
 ---
 # FL Coordinator Service
 apiVersion: apps/v1
@@ -22,8 +22,8 @@ spec:
   selector:
     matchLabels:
       app: fl
-  strategy:
-    type: Recreate
+#  strategy:
+#    type: Recreate
   template:
     metadata:
       labels:
@@ -32,17 +32,20 @@ spec:
       containers:
       - image: fl-coordinator
         name: fl-coordinator
+        imagePullPolicy: Never
         env:
-        - name: checkpoint-limit
+        - name: CHECKIN_LIMIT
           value: "2"
-        - name: fl-root-path
-          value: "/"
+        - name: FL_ROOT_PATH
+          value: "/mnt/data"
+        - name: SELECTOR_ADDRESS
+          value: "selector:50051"
         ports:
         - containerPort: 50050
         volumeMounts:
-        - name: fl-pv
-          mountPath: "/"
+        - name: fl-pvc
+          mountPath: "/mnt"
       volumes:
-      - name: fl-pv
+      - name: fl-pvc
         persistentVolumeClaim:
-          claimName: fl-pv
+          claimName: fl-pvc
