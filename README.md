@@ -36,7 +36,18 @@
 	chmod +x fl_proto.sh
 	./fl_proto.sh
 	```
-6. On the client side (or to simulate client locally), create a directory structure as mentioned in the problem description and place the dataset, config file and any other files in the specified locations. \
+6. Create a common directory for *fl-coordinator* and *fl-selector* which stores the initial files (like checkpoint, model) and intermediate files for federated averaging. Make sure to change the `config.yaml` files in *fl-coordinator* and *fl-selector* accordingly. \
+	For example, the directory structure could be
+	```
+	data/
+		initFiles/
+			fl_checkpoint
+			model.h5
+
+	```
+	where `data` is the common directory which contains checkpoint(`fl_checkpoint`) and model(`model.h5`) files inside `initFiles` subfolder. 
+
+7. On the client side (or to simulate client locally), create a directory structure as mentioned in the problem description and place the dataset, config file and any other files in the specified locations. \
 	For example, a sample directory structure could be
 	```
 	device1/
