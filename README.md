@@ -36,6 +36,17 @@
 	chmod +x fl_proto.sh
 	./fl_proto.sh
 	```
+6. On the client side (or to simulate client locally), create a directory structure as mentioned in the problem description and place the dataset, config file and any other files in the specified locations. \
+	For example, a sample directory structure could be
+	```
+	device1/
+		data/
+			train/
+			test/
+		config/
+			config.yaml
+	```
+	where `device1` is the root folder containing all the client data required for federated learning; `data` subfolder contains the dataset split into `train` and `test`; and `config/config.yaml` is the configuration file. Refer [fl-client README](https://github.com/fedota/fl-client/blob/master/README.md) to run fl-client.  
 
 ### Other Resources
 - https://golang.org/doc/code.html
